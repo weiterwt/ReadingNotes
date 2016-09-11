@@ -70,8 +70,48 @@ Git中，用HEAD表示当前版本，上一个版本就是HEAD^，上上个版�
 ##远程仓库
 创建SSH Key： `ssh-keygen -t rsa -C "youremail"` 这样在.ssh目录下，有id_rsa和id_rsa.pub两个文件，id_rsa是秘钥，id_rsa.pub是公钥。
 
-本地仓库执行：`git remote add origin git@github.com:Github_name/repository_name`
+本地仓库执行：`git remote add origin git@github.com:Github_name/repository_name` 添加后，远程仓库的名字就是origin
 
-本地库内容推送到远程库上：`git push -u origin master`
+本地库内容推送到远程库上：`git push -u origin master` 把当前的分支master推送到远程，第一次推送master分支时，加上了`-u`参数，Git不但会把本地的master分支内容推送给远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令了。`git push origin master`
 
 删除本地仓库关联的远程仓库：`git remote rm origin`
+
+从远程仓库克隆
+
+从远程仓库克隆到本地：`git clone git@github.com:GithubName/repositoryName`
+
+Git支持多种协议，包括`https`，但通过`ssh`支持的原生`git`协议速度最快。
+
+###分支
+创建分支
+
+	git checkout -b branch_name   创建了一个名为branch_name的分支，-b参数表示创建并切换
+	上面一条可以拆分为：git branch branch_naem   git checkout branch_name
+	使用git branch 命令查看当前分支
+当要合并分支时，需要先切换到合入的分支，如：将`test`分支的修改内容合并到`master`分支，则做如下操作：
+
+	git checkout master
+	git merge test
+`git branch -d branch_name` 删除分支
+
+当Git无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。用`git log --graph`命令可以看到合并图。
+
+合并分支时，加上`--no-ff`参数（屏蔽掉了`fast forward`模式）（`git merge --no-ff -m "说明" branch_name`）就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并。
+
+Bug分支：有需要快速解决的Bug，但是当前工作不能提交，这时可以使用`git stash`功能，把当前工作现场“储藏”起来，因此可以放心地创建分支来修复BUG。
+
+`git stash list`命令查看工作现场存储情况。恢复工作现场：`git stash apply`恢复后，stash内容并不删除，需要使用`git stash drop`来删除；使用`git stash pop`，恢复的同时把stash内容也删了。
+
+丢弃一个没有被合并过的分支，使用`git branch -D branch_name`强行删除。
+
+`git remote -v`查看远程仓库的信息
+
+`git pull`从远程抓取分支
+
+`git branch --set-upstream branch-name origin/branch-name` 建立本机分支和远程分支的关联。
+
+`git checkout -b branch-name origin/branch-name` 在本地创建和远程分支对应的分支。
+
+##配置别名
+git config --global alias.st status   使用st代替了status
+
