@@ -34,3 +34,7 @@ Notepad++的默认编码设置为UTF-8 without BOM。
 
 	git add filename
 	git commit -m “说明语句”
+时光机穿梭
+
+	git status 命令显示仓库当前的状态
+	git diff filename 查看具体修改的内容
