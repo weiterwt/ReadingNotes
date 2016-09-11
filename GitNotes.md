@@ -52,4 +52,26 @@ Git中，用HEAD表示当前版本，上一个版本就是HEAD^，上上个版�
 
 `git commit`提交更改，实际上就是把暂存区的所有内容提交到当前分支。
 
+`git dirr HEAD -- filename`命令可以查看工作区和版本库里面最新版本的区别
 
+####撤销修改
+
+`git checkout -- filename`可以丢弃工作区的修改，有两种情况：
+
+* 1 修改后还没有add到暂存区，撤销修改回到和版本库一模一样的状态；
+* 2 已经添加到暂存区后，又作了修改，撤销修改就回到添加到暂存区后的状态。
+
+`git checkout -- filename`命令中的`--`很重要，没有`--`就变成了“切换到另一个分支”的命令了。
+
+想要把提交到了暂存区的修改撤销掉，可以使用命令`git reset HEAD filename`，修改将重新放回工作区。
+####删除文件
+先将工作区里面的文件删除掉，再使用`git rm`和`git commit`命令
+
+##远程仓库
+创建SSH Key： `ssh-keygen -t rsa -C "youremail"` 这样在.ssh目录下，有id_rsa和id_rsa.pub两个文件，id_rsa是秘钥，id_rsa.pub是公钥。
+
+本地仓库执行：`git remote add origin git@github.com:Github_name/repository_name`
+
+本地库内容推送到远程库上：`git push -u origin master`
+
+删除本地仓库关联的远程仓库：`git remote rm origin`
