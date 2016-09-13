@@ -40,3 +40,12 @@ core文件调试：
 	ulimit	-c 数字  #ulimit -c 1024
 	ulimit -a		#用于查看当前所有状态信息
 	gdb	程序名	core-file   #调试core文件
+###makefile
+	makefile基本规则
+	Target ...: Dependencies ...
+			Command ...
+	说明：
+		目标(Target)：即最终想要产生的文件，如：可执行文件，目标文件或中间文件等；目标也可以是要执行的动作，如clean，也称为伪目标。
+		依赖(Dependencies)：为了产生目标文件而依赖的文件列表，一个目标通常依赖于多个文件
+		命令(Command)：是make执行的动作(shell命令或是可在shell下执行的程序，如echo)。每个命令行的起始字符必须为TAB字符！！！
+		
