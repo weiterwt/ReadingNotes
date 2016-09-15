@@ -32,6 +32,12 @@
 	print x=10    动态改变运行时数据
 	where命令/bt命令： 栈回溯，显示导致段错误的执行函数树
 	wh命令	#查看程序代码窗口
+	info functions	#列出函数的名字
+	call func()   #直接调用函数执行，同print func()
+	b (anonymous namespace)::func()		#给匿名空间的函数设置断点
+	tbreak(tb)  file.c:20   #给程序设置一个临时断点，只会生效一次
+	break ... if cond	#设置条件断点  b func:20 if i==10
+	ignore bnum count	#接下来count次编号为bnum的断点都不会让程序中断，只有count+1次断点触发才会让程序中断。
 core文件调试：
 	
 	在程序崩溃时，一般会生成一个文件叫core文件。core文件记录的是程序崩溃时的内存映像，并加入调试信息。core文件生成的过程叫做core dump
