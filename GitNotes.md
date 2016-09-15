@@ -40,7 +40,7 @@ Notepad++的默认编码设置为UTF-8 without BOM。
 	git diff filename 查看具体修改的内容
 版本回退
 
-	git log 命令查看提交历史记录  --prettu=oneline参数：只输出每次提交的一行信息：版本号+说明
+	git log 命令查看提交历史记录  --pretty=oneline参数：只输出每次提交的一行信息：版本号+说明
 Git中，用HEAD表示当前版本，上一个版本就是HEAD^，上上个版本就是HEAD^^，上100个版本写成HEAD~100
 	
 	git reset --hard HEAD^	回退到上一个版本
