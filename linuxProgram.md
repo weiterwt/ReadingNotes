@@ -38,6 +38,9 @@
 	tbreak(tb)  file.c:20   #给程序设置一个临时断点，只会生效一次
 	break ... if cond	#设置条件断点  b func:20 if i==10
 	ignore bnum count	#接下来count次编号为bnum的断点都不会让程序中断，只有count+1次断点触发才会让程序中断。
+	set print array-indexes on  #设置后，再print array 就可以打印出索引下标了
+	set scheduler-locking on	#调试一个线程时，让其他线程暂停执行
+	启动GDB时指定“-tui”参数，或者运行gdb过程中使用Ctrl+X+A组合键，都可以进入图形化调试界面
 core文件调试：
 	
 	在程序崩溃时，一般会生成一个文件叫core文件。core文件记录的是程序崩溃时的内存映像，并加入调试信息。core文件生成的过程叫做core dump
