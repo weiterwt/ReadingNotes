@@ -117,4 +117,6 @@ git config --global alias.st status   使用st代替了status
 
 当前用户的配置文件是~/.gitconfig
 
+本地有修改提交了，远程仓库有修改，这时`git pull`时会有冲突，可使用`git merge origin/master`合并，再手动解决冲突
+
 参考[廖雪峰Git教程](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/)
