@@ -109,85 +109,10 @@ Lambda形式：
 
 `reduce(function, sequence) 返回一个单值，它是这样构造的：首先以序列的前两个元素调用函数function，再以返回值和第三个参数调用，依次执行下去`
 
-列表推导式由包含一个表达式的括号组成，表达式后面跟随一个for子句，之后可以有0或多个for或if子句，结果是一个列表：
 
-	[(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]
-	等同于：
-	combs = []
-	for x in [1, 2, 3]:
-		for y in [3, 1, 4]:
-			if x != y:
-				combs.append((x, y))
-`del`语句：从列表中 按给定的索引删除一个子项，也可以清空列表：
+`sys`模块内置于所有的Python解释器
 
-	a = [1, 2, 3, 4, 5]
-	del a[0]
-	a 变为 [2, 3, 4, 5]
-	del a[:]	#清空列表
-	del a	#删除了整个变量，不能再引用a
-元组：`t = (12, 34, 'hello')`，元组是不可变的。`empty = ()` 创建了一个空元组，`single = 'hello',` 创建一个单元素元组。
+`dir()`函数用于按模块名搜索模块定义，返回一个排好序的字符串类型的存储列表，无参数调用时，返回当前定义的命名列表。
 
-`set(集合)`是一个无序不重复元素的集，大括号或`set()`函数可以用来创建集合。创建空集合必须使用set()
+包通常是使用用“圆点模块名”的结构化模块命名空间。[参考](http://www.pythondoc.com/pythontutorial27/modules.html)
 
-字典以关键字为索引，关键字可以是任意不可变类型，通常用字符串或数值。一对大括号创建一个空的字典：`{}`
-字典的主要操作是依据键来存储和取值，也可以用del来删除键：值对。
-
-对一个字典执行`keys()`将返回一个字典中所有关键字组成的无序列表。
-
-`dict()`函数可以直接创建字典：`dict([('a', 1), ('b', 2), ('c', 3)])`
-
-在序列中循环时，索引位置和对应值可以使用`enumerate()`函数同时得到：
-
-	for i, v in enumerate(['a', 'b', 'c']):
-		print(i, v)
-	0 a
-	1 b
-	2 c
-同时循环两个或更多的序列，可以使用zip()整体打包：
-
-	for value in zip(list1, list2):
-		...
-遍历字典时，使用`iteritems()`方法可以同时得到键和对应的值：
-
-	dic = {'a':123, 'b':45}
-	for k, v in dic.iteritems():
-		print k, v
-	a 123
-	b 45
-###模块
-模块中除了包含函数定义外，也可以包含可执行语句，这些语句一般用来初始化模块，它们仅在第一次被导入的地方执行一次。
-
-被导入的模块名会放入当前模块的全局符号表中。
-
-格式化输出：
-
-	1、自己处理整个字符串，通过使用字符串切割和连接操作可以创建任何需要的输出形式
-	2、使用str.format()方法
-将值转化为字符串：`repr()或str()`函数，函数`str()`用于将值转化为适于人阅读的形式，而`repr()`转化为供解释器读取的形式。
-
-`str.rjust()、str.ljust()、str.center()`对输出的字符串进行对齐操作。
-
-`str.format()`的基本用法：`print 'We are the {} who say "{}!" '.format('knights', 'Ni')`
-
-可以通过指明大括号中的数值来传入对象：`print '{0} and {1}'.format('spam', 'eggs')`或`print '{1} and {0}'.format('spam', 'eggs')`
-
-也可以使用关键字参数：`print 'This {food} is {adjective}.'.format(food='spam', adjective='absolutely horrible')`
-
-`print('The value of PI is approximately {0:.3f}.'.format(math.pi))`
-
-###文件读写
-函数`open()`返回文件对象：`open(filename, mode)`，可选的模式有：`'r'`只读，`'w'`只写，`'a'`追加，`'r+'`读写方式打开文件。
-
-文件对象的方法：
-
-	f = open('filename', 'r+')
-	f.read(size)	#size可选，指定要读取的字符串长度， 文件末尾时，返回一个空字符串""
-	f.readline()	#从文件中读取单独一行，结尾自动加上一个换行符'\n'
-	f.readlines()	#返回一个列表，其中包含了文件中所有的数据行
-	f.write(string)	#将string的内容写入文件，并返回写入字符的长度
-	f.tell()	#返回一个整数，代表文件对象在文件中的指针位置，该数值计量了自文件开头到指针处的比特数
-	f.seek(offset, from_what) #改变文件对象指针，from_what值为0表示自文件起始处开始，1表示自当前文件指针位置开始，2表示自文件末尾开始
-	f.close()	#关闭文件并释放其占用的所有系统资源
-用关键字`with`处理文件对象：`with open('filename', 'r') as f: read_data = f.read()`，这样文件用完后会自动关闭
-
-标准模块`json`可以接受Python数据结构，并将它们转换为字符串表示形式，此过程称为序列化。
