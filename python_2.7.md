@@ -145,7 +145,7 @@ Lambda形式：
 
 被导入的模块名会放入当前模块的全局符号表中。
 
-格式化输出：
+###格式化输出：
 
 	1、自己处理整个字符串，通过使用字符串切割和连接操作可以创建任何需要的输出形式
 	2、使用str.format()方法
@@ -178,3 +178,21 @@ Lambda形式：
 
 标准模块`json`可以接受Python数据结构，并将它们转换为字符串表示形式，此过程称为序列化。
 
+异常处理：`try: ... except ...:`
+	
+	import sys
+	
+	try:
+	    f = open('myfile.txt')
+	    s = f.readline()
+	    i = int(s.strip())
+	except IOError as e:
+	    print "I/O error({0}): {1}".format(e.errno, e.strerror)
+	except ValueError:
+	    print "Could not convert data to an integer."
+	except:
+	    print "Unexpected error:", sys.exc_info()[0]
+	    raise
+`raise`语句允许程序员强制抛出一个指定的异常：比如`raise NameError('ThisErrors')`，要抛出的异常由raise的唯一参数标识，它必需是一个异常实例或异常类(继承自`Exception`的类)。
+
+`try:... finally:...`不管有没有发生异常，finally子句都会执行。try语句经由break、continue或return语句退出也一样会执行finally子句。
