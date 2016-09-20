@@ -196,3 +196,26 @@ Lambda形式：
 `raise`语句允许程序员强制抛出一个指定的异常：比如`raise NameError('ThisErrors')`，要抛出的异常由raise的唯一参数标识，它必需是一个异常实例或异常类(继承自`Exception`的类)。
 
 `try:... finally:...`不管有没有发生异常，finally子句都会执行。try语句经由break、continue或return语句退出也一样会执行finally子句。
+
+作用域决定源程序的意义：一个定义于某模块中的函数的全局作用域是该模块的命名空间，而不是该函数的别名被定义或调用的位置。
+
+类定义完成时，就创建了一个*类对象*，类对象支持两种操作：属性引用和实例化。
+
+	class MyClass:
+		"""A simple example class"""
+		i = 123
+		def f(self):
+			return 'hello world'
+		def __init__(self, real, imag)
+			self.r = real
+			self.i = imag
+	那么MyClass.i和MyClass.f是有效的属性引用，__doc__也是一个有效的属性，返回类的文档字符串
+	类的实例化使用函数符号：x = MyClass()
+	如果类定义了__init__()方法，则实例化操作会自动为新创建的类实例调用__init__()方法
+	方法的调用：x.f()  相当于：MyClass.f(x)
+	方法对象可以存储起来以后调用：xf = x.f   while True: print xf()
+继承
+
+	class DerivedClassName(BaseClassName):
+	class DerivedClassName(modname.BaseClassName):  基类定义在另一个模块中
+	
