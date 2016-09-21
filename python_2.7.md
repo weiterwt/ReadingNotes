@@ -196,3 +196,4 @@ Lambda形式：
 `raise`语句允许程序员强制抛出一个指定的异常：比如`raise NameError('ThisErrors')`，要抛出的异常由raise的唯一参数标识，它必需是一个异常实例或异常类(继承自`Exception`的类)。
 
 `try:... finally:...`不管有没有发生异常，finally子句都会执行。try语句经由break、continue或return语句退出也一样会执行finally子句。
+
