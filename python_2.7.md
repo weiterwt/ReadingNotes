@@ -218,4 +218,18 @@ Lambda形式：
 
 	class DerivedClassName(BaseClassName):
 	class DerivedClassName(modname.BaseClassName):  基类定义在另一个模块中
-	
+迭代器：调用`iter()`函数，该函数返回一个定义了`next()`方法的迭代器对象，它在容器中逐一访问元素。没有后续的元素时，`next()`抛出一个`StopIteration`异常。
+
+	class Reverse:
+		"""Iterator for looping over a sequence backwards."""
+		def __init__(self, data):
+			self.data = data
+			self.index= = len(data)
+		def __iter__(self):
+			return self
+		def __next__(self):
+			if self.index == 0:
+				raise StopIteration
+			self.index = self.index - 1
+			return self.data[self.index]
+		
