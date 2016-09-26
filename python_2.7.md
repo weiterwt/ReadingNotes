@@ -233,4 +233,19 @@ Lambda形式：
 				raise StopIteration
 			self.index = self.index - 1
 			return self.data[self.index]
+###标准库
+os模块提供了很多与操作系统交互的函数：
+	
+	import os
+	os.getcwd()		#获得当前的工作路径
+	os.chdir('path')#修改当前的工作路径
+	os.system('commend')   #执行命令
 
+	shutil模块提供了一些文件和目录管理操作接口
+	import shutil
+	shutil.copyfile('data.db', 'archive.db')
+	shutil.move('/path/file', 'dir')
+glob模块提供了一个函数用于从目录中根据通配符搜索，生成文件列表：
+
+	import glob
+	glob.glob('*.py')	#返回一个含文件名字的列表
