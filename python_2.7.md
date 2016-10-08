@@ -249,3 +249,34 @@ glob模块提供了一个函数用于从目录中根据通配符搜索，生成�
 
 	import glob
 	glob.glob('*.py')	#返回一个含文件名字的列表
+
+命令行参数
+	
+	命令行参数以链表形式存储于sys模块的argv变量，如执行：python demo.py one two three
+	import sys
+	print sys.argv  #输出：['demo.py','one','two','three']
+	sys.exit() #脚本终止
+	
+	re模块：正则表达式工具
+	import re
+	re.findall(r'\bf[a-z]*', 'which the fir ofer to end first') #['fir', 'first']
+
+	math模块为浮点数运算提供了对底层C函数库的访问
+	random提供了生成随机数的工具
+
+	urllib2:处理从urls接收的数据
+	smtplib：发送电子邮件
+
+	datetime模块提供日期和时间处理
+	zlib,gzip,bz2,zipfile,tarfile：数据打包和压缩
+
+交互式输入行编辑历史回溯
+
+	Ctrl+A：将光标移动到行首
+	Ctrl+E：将光标移动到行尾
+	Ctrl+B：向左移一个字符
+	Ctrl+F：向右移一个字符
+	Ctrl+D：向右删除一个字符
+	Ctrl+K：删除光标右边直到行尾的所有字符
+	Ctrl+Y：将最后一次删除的字符串粘贴到光标位置
+	Ctrl+W：删除光标前的一个词
