@@ -41,6 +41,11 @@
 	set print array-indexes on  #设置后，再print array 就可以打印出索引下标了
 	set scheduler-locking on	#调试一个线程时，让其他线程暂停执行
 	启动GDB时指定“-tui”参数，或者运行gdb过程中使用Ctrl+X+A组合键，都可以进入图形化调试界面
+
+	GDB 多进程调试
+	set args   设置进程参数
+	set follow-fork-mode child ：to follow child processes
+	set follow-fork-mode parent：to return to the default behavior
 core文件调试：
 	
 	在程序崩溃时，一般会生成一个文件叫core文件。core文件记录的是程序崩溃时的内存映像，并加入调试信息。core文件生成的过程叫做core dump
