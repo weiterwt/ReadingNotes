@@ -92,4 +92,35 @@ du命令
 
 	du [选项] [文件] du命令查看文件和目录磁盘使用的空间
 	-a	显示目录中所有文件的大小
+
+`echo -e "包含转义序列的字符串"`  #双引号中使用
+
+`echo -e "\e[1;31m this is red text \e[0m"`
+
+env命令查看所有与终端相关的环境变量
+
+查看进程的环境变量：cat /proc/$PID/environ
+
+	var=value不同于var = value，前者是赋值操作，后者是相等操作
+	length=${#var}  获取变量的长度
+判断当前用户是不是root用户可以看UID这个环境变量是不是0，是0则表示是root用户
+
+	let命令可以直接执行基本的算术操作，当使用let时，变量名之前不需要再添加$： let result=num1+num2
+	操作符[]使用：result=$[num1+num2]
+	使用(()): result=$((num1+num2))
+	expr: result=`expr num1+num2`
+bc是一个用于数学运算的高级工具，这个精度计算器包含了大量的选项
+
+	echo "5 * 1.34" | bc
 	
+	no=54;
+	result=`echo "$no * 1.5" | bc`
+	echo $result
+	
+	设定小数精度：echo "scale=2;3/8" | bc
+	进制转换：
+	no=100
+	echo "obase=2;$no" | bc   #输出1100100
+	
+	no=1100100
+	echo "obase=10;ibase=2;$no" | bc  #输出100
