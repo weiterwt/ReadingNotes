@@ -124,3 +124,22 @@ bc是一个用于数学运算的高级工具，这个精度计算器包含了大
 	
 	no=1100100
 	echo "obase=10;ibase=2;$no" | bc  #输出100
+使用tee实现既将数据重定向到文件，又提供一份重定向数据的副本作为后继命令的stdin，例子：要在终端中打印stdout，同时将它重定向到一个文件中，则使用`command | tee -a FILE1 FILE2` -a追加到文件
+
+	打印数组的值：echo ${array[*]}  或者  echo ${array[@]}
+	数组的长度：  echo ${#array[*]}
+	
+	声明关联数组：declare -A arr_name
+	获取索引列表：echo ${!arr_name[*]}
+alias可以创建别名
+
+	tput cols    #获取终端的列数
+	tput lines 	 #获取终端的行数
+	tput longname	#打印中终端名
+	
+	date +%s   #显示当前时间的时间戳
+	date "+%d %B %Y"   #以“日 月 年”的形式显示
+	date -s "时间格式"   #设置时间
+
+	调试：
+	使用-x选项启用shell脚本的跟踪调试功能：bash/sh -x scriptname.sh
