@@ -48,12 +48,18 @@ export 功能说明：设置或显示环境变量。
 `find pathname -options [-print -exec -ok ...]` 用于在文件树中查找文件，并作出相应的处理。
 	
 	命令选项：
-	-name	按照文件名查找文件
+	-name	按照文件名查找文件  -iname 忽略字母大小写
+	-regex	正则表达式模式
 	-perm	按照文件权限来查找文件
 	-user	按照 文件属主来查找文件
 	-group	按照文件所属的组来查找文件
 	-mtime -n +n 按照文件的更改时间来查找文件，-n表示文件更改时间距现在n天以内，+n是n天以前
 	-size n:[c] 查找文件长度为n块的文件，带有c时表示文件长度以字节计。
+	-type	指定文件匹配类型，d：目录 f：文件
+
+	find . -print 	输出当前目录下包含的所有文件名
+	find . -maxdepth 1 -name "f*" -print  指定find命令向下查找的最大深度为1，-mindepth
+
 tar命令和gzip命令
 
 	tar [必要参数][选择参数][包名][文件名]
@@ -143,3 +149,7 @@ alias可以创建别名
 
 	调试：
 	使用-x选项启用shell脚本的跟踪调试功能：bash/sh -x scriptname.sh
+
+	cat -T filename  #能够将filename文件中的制表符标记成^|
+	cat -n 选项在输出的每一行内容之前加上行号
+xargs
