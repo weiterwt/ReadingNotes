@@ -152,4 +152,72 @@ alias可以创建别名
 
 	cat -T filename  #能够将filename文件中的制表符标记成^|
 	cat -n 选项在输出的每一行内容之前加上行号
-xargs
+xargs命令把从stdin接收到的数据重新格式化，再将其作为参数提供给其他命令
+
+	统计源代码目录中所有c程序文件的行数
+	find source_code_dir_path -type -f -name "*.c" -print0 | xargs -0 wc -l
+
+	echo "HELLO WORLD" | tr 'A-Z' 'a-z'  tr命令将字符串中的大写字母转换成小写字母
+	md5sum、sha1sum   计算文件的校验和
+加密算法：
+
+	crypt：从stdin接受一个文件以及口令作为输入，然后将加密数据输出到stdout
+	gpg加密文件：gpg -c filename #生成filename.gpg  解密：gpg filename.gpg
+	
+对文件进行排序：
+	
+	sort file1 file2 > sorted.txt    或者  sort file1 file2 -o sorted.txt
+	sort -n file 按照数字顺序进行排序
+	sort -r file 逆序进行排序
+	sort -M file 按月份排序
+	sort -m file1 file2 合并两个已排序过的文件
+	sort file1 file2 | uniq 找出已排序文件中不重复的行
+	-k 指定排序应该按照哪一个键(文件中的列号)来进行
+	uniq命令通过消除重复内容，从给定输入中找出唯一的行
+临时文件：
+
+	mktemp  	#会在/tmp目录下创建一个临时文件
+	mktemp -d  	#创建临时目录
+将大文件进行分割:
+	
+	split -b 100k filename   #将文件filename分割成100k大小的文件
+	-d 以数字为后缀 -a+length 指定数字的长度  最后一个参数写成文件名，则分割后的文件名就是这个了
+文件重命名：
+
+	#!/bin/bash
+	count = 1;
+	for img in `find . -iname '*.png' -o -iname '*.jpg' -type f -maxdepth 1`
+	do
+		new=image-$count.${img##*.}
+		echo "Renaming $img to $new"
+		mv "$img" "$new"
+		let count++
+	done
+并行运行：
+
+	#/bin/bash
+	PIDARRAY=()
+	for file in File1.iso File2.iso
+	do
+		md5sum $file &
+		PIDARRAY+=("$!")
+	done
+	wait ${PIDARRAY[@]}
+	利用操作符&，是的shell将命令置于后台并继续执行脚本，使用$!来获得进程的PID
+文本文件的交集与差集
+
+	comm命令可用于两个文件之前的比较
+查找文件差异
+
+	diff命令可以生成差异文件
+目录快速切换
+
+	pushd将路径压入栈中  #pushd ~/test/test1  并且切换到路径下
+	popd将栈中的路径删除
+统计文件的行数、单词数和字符数
+
+	wc是一个用于统计的工具(word count)
+		wc -l file
+		cat file | wc -l
+	wc -w file  单词数
+	
