@@ -90,6 +90,279 @@ long long 类型是在C++ 11中新定义的，最小占64bit
 字面值常量的形式和值决定了它的数据类型。
 short类型没有对应的字面值
 浮点型字面值是一个double类型
-true和false是布尔类型的字面值，nullptr是指针字面值
+true和false是布尔类型的字面值，nullptr是指针字面值(c++11引入)
+引用不是对象，没有实际的地址，所以不能定义指向引用的指针
+NULL值也是为0，在头文件cstdlib中定义
 ```
+
+```
+int *p;
+int *&r = p;    //r是一个对指针p的引用
+
+默认情况下，const对象的被设定为仅在文件内有效，当多个文件中出现了同名的const变量时，其实等同于在不同文件中分别定义了独立的变量。 想在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字。
+
+用名词顶层const(top-level const)表示指针本身是个常量，而底层const(low-level const)表示指针所指的对象是一个常量。
+const int ci = 3;
+const int &r = ci;	//用于声明引用的const都是底层const
+
+常量表达式(const expression)是指值不会改变并且在编译过程就能得到计算结果的表达式。
+
+c++11新标准规定，允许将变量声明为constexpr类型以便编译器来验证变量的值是否是一个常量表达式。
+constexpr int mf = 10;	//20是常量表达式
+constexpr int sz = size();	//只有当size是一个constexpr函数时，才是一个正确的声明语句
+
+const int *p = nullptr;
+constexpr int *q = nullptr;
+p是一个指向常量的指针，q是一个常量指针，说明：constexpr把它所定义的对象置为了顶层const
+```
+
+c++11新标准规定了一种新的方法：使用别名声明(alias declaration)来定义类型的别名：
+
+```
+using SI = Sales_item;	//SI是Sales_item的同义词
+```
+
+```c++
+typedef char *pstring;
+const pstring cstr = 0;	//cstr是指向char的常量指针
+const pstring *ps;	//ps是一个指针，它的对象是指向char的常量指针
+const是对给定类型的修饰。pstring实际上是指向char的指针，因此，const pstring就是指向char的常量指针，而非指向常量字符的指针。
+```
+
+```
+使用auto类型说明符，让编译器替我们去分析表达式所属的类型。
+auto i = 0, *p = &i;	//i是整型，p是整型指针
+auto sz = 0, pi = 3.14;	//错误，sz和pi的类型不一致
+
+auto一般会忽略掉顶层const
+	const int ci = i, &cr = ci;
+	auto b = ci;	//b是一个整数(ci的顶层const特性被忽略掉了)
+	auto c = cr;	//c是一个整数(cr是ci的别名)
+	auto d = &i;	//d是一个整型指针
+	auto e = &ci;	//e是一个指向整数常量的指针
+	auto &g = ci;	//g是一个整型常量引用
+```
+
+```
+类型说明符decltype，它的作用是选择并返回操作数的数据类型
+	decltype(f()) sum = x;	//不调用函数f，sum的类型就是函数f的返回类型
+如果decltype使用的表达式是一个变量，则decltype返回该变量的类型(包括顶层const和引用在内)
+	const int ci = 0, &cj = ci;
+	decltype(ci) x = 0;		//类型为const int
+	decltype)(cj) y = x;	//类型为const int&
+	
+	int i = 0, *p = &i;
+	decltype(*p) c = i;		//c的类型是int&
+	decltype((i)) d;	//错误，d是int&，必须初始化，给i加上了一个括号，得到引用类型
+```
+
+getline()函数的参数是一个输入流和一个string对象，函数从给定的输入流中读入内容，直到遇到换行符为止(注意换行符也被读进来了)，然后把所读的内容存入到那个string对象中去(注意不存换行符)。
+
+```
+string对象的size函数返回的是一个string::size_type类型的值
+	string line;
+	auto len = line.size();	//len的类型是string::size_type
+cctype头文件中一些函数:
+	ispunct(c)	当c时标点符号时为真
+```
+
+```c++
+C++11：范围for语句
+	string str("hello world!!");
+	decltype(str.size()) punct_cnt = 0;
+	for (auto c : str)
+	{
+    	if (ispunct(c))
+          {
+              ++punct_cnt;
+          }
+	}
+```
+
+通过下标访问不存在的元素所产生的错误就是`缓冲区溢出(buffer overflow)`
+
+```
+为了便于专门得到const_iterator类型的返回值，c++11引入了两个新函数：cbegin和cend
+	vector<int> vec;
+	auto itr = vec.cbegin();	//itr的类型是vector<int>::const_iterator
+```
+
+```
+使用size_t类型操作数组的下标，size_t是一种机器相关的无符号类型，它被设计得足够大以便能表示内存中任意对象的大小。在cstddef头文件中定义
+
+int ia[] = {0, 1, 2, 3, 4, 5};
+auto ia2(ia);	//ia2是一个整型指针，指向ia的第一个元素
+decltype(ia)返回的类型是由6个整数构成的数组
+C++11新引入begin和end函数，定义在iterator头文件中
+	int *beg = begin(ia);	//指向ia首元素的指针
+	int *last = end(ia);	//指向数组尾元素的下一位置的指针
+```
+
+```
+C风格字符串不是一种类型，而是为了表达和使用字符串而形成的一种约定俗成的写法。按此习惯写的字符串放在字符数组中并以空字符结束('\0')
+不能用string对象直接初始化指向字符的指针，要使用c_str函数转换
+	string s("hello");
+	char *str = s;	//错误
+	const char *str = s.c_str();	//正确
+	c_str函数的返回值是一个c风格的字符串，也就是，这个函数返回结果是一个指针，该指针指向一个以空字符结束的字符数组。
+```
+
+```
+int ia[2][3] = {{1,2,3}, {4,5,6}};
+int (&row)[3] = ia[1];	//把row定义成一个含有3个整数的数组的引用
+要使用范围for语句处理多维数组，除了最内层的循环外，其他所有循环的控制变量都应该是引用类型
+```
+
+```
+当一个对象被用作右值的时候，用的是对象的值(内容)；当对象被用作左值的时候，用的是对象的身份(在内存中的位置)
+
+如果表达式的求值结果是左值，decltype作用于该表达式(不是变量)得到一个引用类型。
+
+逻辑运算符和关系运算符的返回值都是布尔类型。
+```
+
+```
+后置递增运算符的优先级高于解引用运算符，因此*p++等价于*(p++)
+```
+
+```
+sizeof运算符返回一个一条表达式或一个类型名字所占的字节数，所得值是一个size_t类型。sizeof运算不会把数组转换成指针来处理。
+
+逗号运算符(comma operator)含有两个运算对象，按照从左向右的顺序依次求值，结果是右侧表达式的值。
+```
+
+```
+强制类型转换
+	static_cast  任何具有明确定义的类型转换，只要不包含底层const，都可以使用，当需要把一个较大的算术类型赋值给一个较小的类型时，static_cast非常有用。使用static_cast找回存在于void*指针中的值：
+		void *p = &d;	//d的真正类型是double
+		double *dp = static_cast<double*>(p);
+		
+	dynamic_cast  支持运行时类型识别
+	
+	const_cast  只能该表运算对象的底层const
+		const char *pc;
+		char *p = const_cast<char*>(pc);
+	对于将常量对象转换成非常量对象的行为，称为"去掉const性质(cast away the const)"
+	
+	reinterpret_cast  通常为运算对象的位模式提供较低层次上的重新解释
+		int *ip;
+		char *pc = reinterpret_cast<char*>(ip);
+	必须牢记pc所指的真实对象是一个int而非字符，如果把pc当成普通的字符指针使用就可能在运行时发生错误。
+```
+
+```
+一个表达式，比如ival + 5, 末尾加上分号就变成了表达式语句。
+复合语句(compound statement)是指用花括号括起来的语句和声明的序列，复合语句也被称作块(block)，一个块就是一个作用域。 
+```
+
+```
+异常是指存在于运行时的反常行为，这些行为超出了函数正常功能的范围。
+	throw表达式(throw expression),引发(raise)了异常
+	try语句块(try block)，异常处理部分使用try语句块处理异常，catch子句结束。
+
+那些在异常发生期间正确执行了"清理"工作的程序被称作异常安全(exception safe)的代码。
+```
+
+```
+执行函数的第一步是(隐式地)定义并初始化它的形参。
+函数声明也称作函数原型(function prototype).
+
+void fcn(const int i){}
+void fcn(int i){}	//错误，属于重复定义，因为顶层const会被忽略掉
+
+void fcn(const int *p){}
+void fcn(int *p){}   //正确，因为这个const是底层const
+```
+
+```
+int main(int argc, char *argv[]);当使用argv中的实参时，一定要记住可选的实参从argv[1]开始；argv[0]保存程序的名字，而非用户输入。
+```
+
+```c++
+为了编写能处理不同数量实参的函数，c++11新标准提供了两种主要的方法：如果所有的实参类型相同，可以传递一个名为initializer_list的标准库类型；如果实参的类型不同，可以编写一种特殊的函数，也就是所谓的可变参数模板。
+
+还有一个特殊的形参类型(即省略符)，可以用它传递可变数量的实参，一般只用于与C函数交互的接口程序。
+
+如果想向initializer_list形参中传递一个值的序列，则必须把序列放在一对花括号内:
+	void ErrorMsg(initializer_list<string> ilst);
+	使用：ErrorMsg({"hello", "okay"});
+	
+C++11新标准规定，函数可以返回花括号包围的列表：
+	vector<string> process()
+	{
+        if (str.empty())
+          return {};
+  		else
+          return {"Hello", str};
+	}
+```
+
+```
+int (*func(int i))[10];
+	1、func(int i)表示调用func函数时需要一个int类型的实参
+	2、(*func(int i))意味着我们可以对函数调用的结果执行解引用操作
+	3、(*func(int i))[10]表示解引用func的调用将得到一个大小是10的数组
+	4、int (*func(int i))[10]表示数组中的元素是int类型
+	
+在C++11新标准中还有一种可以简化上述func声明的方法，就是使用尾置返回类型(trailing return type)
+	auto func(int i) -> int(*)[10]; //func接受一个int类型的实参，返回一个指针，该指针指向含有10个整数的数组
+	
+	int odd[] = {1,2,3,4,5};
+	decltype(odd); //结果是一个数组，而不是指针
+```
+
+```
+constexpr函数(constexpr function)是指能用于常量表达式的函数，返回类型及所有形参的类型都得是字面值类型。
+	constexpr int new_sz()
+	{
+       return 30;
+	}
+constexpr函数不一定返回常量表达式。
+```
+
+```
+assert是一种预处理宏(preprocessor marco)：
+	assert(expr);
+	首先对expr求值，如果表达式为假，assert输出信息并终止程序的执行。
+assert宏定义在cassert头文件中。
+
+assert的行为依赖于一个名为NDEBUG的预处理变量的状态，如果定义了NDEBUG，则assert什么也不做。默认状态下没有定义NDEBUG。
+变量: __func__输出调试的函数的名字。编译器为每个函数都定义了__func__，它是const char的一个静态数组，用于存放函数的名字。
+	__FILE__  存放文件名
+	__LINE__  存放当前行号
+	__TIME__  存放文件编译时间
+	__DATE__  存放文件编译日期
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
