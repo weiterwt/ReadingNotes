@@ -334,6 +334,31 @@ assert的行为依赖于一个名为NDEBUG的预处理变量的状态，如果�
 	__DATE__  存放文件编译日期
 ```
 
+```
+函数指针指向的是函数而非对象，和其他指针一样，函数指针指向某种特定类型。函数的类型由它的返回类型和形参类型共同决定，与函数名无关。
+	bool LengthCompare(const string &, const string &);
+	该函数的类型是: bool(const string &, const string &)。
+	
+	bool (*pf)(const string &, const string &);  //pf就是一个指向函数的指针。
+	
+	当把函数名作为一个值使用时，该函数自动地转换成指针。
+	pf = LengthCompare;
+	pf = &LengthCompare;	//等价的
+```
+
+### 类
+
+```
+类的基本思想是数据抽象(data abstraction)和封装(encapsulation)
+封装实现了类的接口和实现的分离
+
+当调用一个成员函数时，用请求该函数的对象地址初始化this指针。
+
+常量对象，以及常量对象的引用或指针都只能调用常量成员函数。
+
+友元：如果类想把一个函数作为它的友元，只需要增加一条以friend关键字开始的函数声明语句即可。
+```
+
 
 
 
